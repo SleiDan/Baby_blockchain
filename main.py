@@ -24,13 +24,11 @@ class KeyPair:
 
 class Signature:
     def signData(self, txt, key, hashAlg = Crypto.Hash.SHA512):
-
         signature = PKCS1_v1_5.new(RSA.importKey(key))
         hash = hashAlg.new(txt)
         return signature.sign(hash)
 
     def verifySignature(self, sign, txt, key, hashAlg = Crypto.Hash.SHA512):
-
         hash = hashAlg.new(txt)
         verif = PKCS1_v1_5.new(RSA.importKey(key))
         return verif.verify(hash, sign)
@@ -51,8 +49,8 @@ class Account:
         self.wallet.append(D.genKeyPair())
 
     def signData(self,text, index):
-        Sign1 = Signature()
         key = self.wallet[index][1]
+        Sign1 = Signature()
         return Sign1.signData(text, key)
 
 
