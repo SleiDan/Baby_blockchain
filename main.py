@@ -52,6 +52,34 @@ class Account:
         key = self.wallet[index][1]
         Sign1 = Signature()
         return Sign1.signData(text, key)
+    
+class Operation:
+    def __init__(self,sender, reciever, amount, signature):
+        self.sender, self.reciever, self.amount, self.signature = self.createOperation(sender, reciever, amount, signature)
+
+    def createOperation(self,sender, reciever, amount, signature):
+        self.sender = sender
+        self.reciever = reciever
+        self.amount = str(amount)
+        self.signature = signature
+        return self.sender, self.reciever, self.amount, self.signature
+
+    def verifyOperation(self, sender, signature, amount):
+        Sign2 = Signature()
+        return Sign2.verifySignature(signature,amount.encode(),sender)
+
+class Transaction:
+    def __init__(self, transactionID, setOfOperations, nonce):
+        self.transactionID = transactionID
+        self.setOfOperetions = setOfOperations
+        self.nonce = nonce
+
+    def createTransaction(self, setOfOperations, nonce):
+        t = ''
+        self.setOfOperetions = setOfOperations
+        self.nonce = nonce
+        self.transactionID = Crypto.Hash.SHA512.new(t.join(setOfOperations) + nonce)
+        return self
 
 
 Sign = Signature()
